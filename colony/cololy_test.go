@@ -65,27 +65,3 @@ func TestCountNeighbours(t *testing.T) {
 		}
 	}
 }
-
-func TestGOLRules(t *testing.T) {
-	cases := []struct {
-		neighbours int
-		cell       Cell
-		want       Cell
-	}{
-		{cell: Cell(1), neighbours: 2, want: Cell(1)},
-		{cell: Cell(1), neighbours: 3, want: Cell(1)},
-		{cell: Cell(1), neighbours: 1, want: Cell(0)},
-		{cell: Cell(1), neighbours: 4, want: Cell(0)},
-
-		{cell: Cell(0), neighbours: 3, want: Cell(1)},
-		{cell: Cell(0), neighbours: 2, want: Cell(0)},
-		{cell: Cell(0), neighbours: 4, want: Cell(0)},
-	}
-
-	for _, tt := range cases {
-		got := golRules(tt.cell, tt.neighbours)
-		if got != tt.want {
-			t.Errorf("want: %d, got: %d", tt.want, got)
-		}
-	}
-}

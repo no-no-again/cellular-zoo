@@ -5,6 +5,7 @@ import (
 
 	"github.com/zronev/cellular-zoo/colony"
 	"github.com/zronev/cellular-zoo/config"
+	"github.com/zronev/cellular-zoo/rules"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -29,7 +30,9 @@ func run() {
 	cd := colony.NewDrawer(c, config.CellSize)
 
 	update := func() {
-		c.NextGen()
+		c.NextGen(func(cell colony.Cell, neighbours int) colony.Cell {
+			return colony.Cell(rules.GOL(rules.GOLCell(cell), neighbours))
+		})
 	}
 
 	draw := func() {
