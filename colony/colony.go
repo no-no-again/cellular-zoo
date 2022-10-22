@@ -26,3 +26,9 @@ func New(rows, cols int) *Colony {
 
 	return c
 }
+
+func (c *Colony) NextGen() {
+	c.grid.Traverse(func(x, y int, cell *Cell) {
+		*cell = Cell(rand.Intn(numberOfStates))
+	})
+}

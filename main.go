@@ -35,6 +35,7 @@ func run() {
 		imd.Clear()
 
 		cd.Draw(imd)
+		c.NextGen()
 
 		imd.Draw(win)
 		win.Update()
