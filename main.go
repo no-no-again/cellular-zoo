@@ -1,7 +1,7 @@
 package main
 
 import (
-	"image/color"
+	"github.com/zronev/cellular-zoo/colony"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	windowWidth  = 600
+	windowWidth  = 800
 	windowHeight = 600
 	cellSize     = 10
 )
@@ -27,28 +27,19 @@ func run() {
 	}
 
 	imd := imdraw.New(nil)
-	offset := 0.0
+
+	c := colony.New(windowHeight/cellSize, windowWidth/cellSize)
+	cd := colony.NewDrawer(c, cellSize)
 
 	for !win.Closed() {
 		win.Clear(colornames.Snow)
 		imd.Clear()
 
-		drawRect(imd, windowWidth/2, windowHeight/2, cellSize, cellSize, colornames.Tomato)
-		drawRect(imd, 20+offset, 20+offset, cellSize, cellSize, colornames.Wheat)
-
-		offset += 0.5
+		cd.Draw(imd)
 
 		imd.Draw(win)
 		win.Update()
 	}
-}
-
-func drawRect(imd *imdraw.IMDraw, x, y, w, h float64, color color.RGBA) {
-	rect := pixel.R(x, y, x+w, y+h).Norm()
-
-	imd.Color = color
-	imd.Push(rect.Min, rect.Max)
-	imd.Rectangle(0)
 }
 
 func main() {
