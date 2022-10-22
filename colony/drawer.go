@@ -18,7 +18,7 @@ func NewDrawer(c *Colony, cellSize int) *ColonyDrawer {
 
 func (cd *ColonyDrawer) Draw(imd *imdraw.IMDraw) {
 	cd.colony.grid.Traverse(func(x, y int, cell *Cell) {
-		color := colornames.Tomato
+		color := colornames.Black
 
 		if *cell == Cell(0) {
 			color = colornames.Snow

@@ -12,10 +12,6 @@ import (
 	"golang.org/x/image/colornames"
 )
 
-const (
-	cellSize = 10
-)
-
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Cellular Zoo",
@@ -29,8 +25,8 @@ func run() {
 
 	imd := imdraw.New(nil)
 
-	c := colony.New(config.WindowHeight/cellSize, config.WindowWidth/cellSize)
-	cd := colony.NewDrawer(c, cellSize)
+	c := colony.New(config.WindowHeight/config.CellSize, config.WindowWidth/config.CellSize)
+	cd := colony.NewDrawer(c, config.CellSize)
 
 	update := func() {
 		c.NextGen()
