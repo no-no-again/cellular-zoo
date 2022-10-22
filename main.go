@@ -27,13 +27,16 @@ func run() {
 	}
 
 	imd := imdraw.New(nil)
+	offset := 0.0
 
 	for !win.Closed() {
 		win.Clear(colornames.Snow)
 		imd.Clear()
 
 		drawRect(imd, windowWidth/2, windowHeight/2, cellSize, cellSize, colornames.Tomato)
-		drawRect(imd, 20, 20, cellSize, cellSize, colornames.Wheat)
+		drawRect(imd, 20+offset, 20+offset, cellSize, cellSize, colornames.Wheat)
+
+		offset += 0.5
 
 		imd.Draw(win)
 		win.Update()
