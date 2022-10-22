@@ -53,6 +53,7 @@ func countNeighbours(x, y int, g *grid.Grid[Cell]) int {
 				continue
 			}
 
+			// TODO: make more generic
 			if *g.Get(x, y) == Cell(1) {
 				neighbours++
 			}
