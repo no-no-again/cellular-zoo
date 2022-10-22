@@ -4,6 +4,7 @@ import (
 	"math/rand"
 
 	"github.com/zronev/cellular-zoo/drawers"
+	"github.com/zronev/cellular-zoo/grid"
 
 	"github.com/faiface/pixel/imdraw"
 	"golang.org/x/image/colornames"
@@ -12,36 +13,18 @@ import (
 type Cell int
 
 type Colony struct {
-	cells []Cell
-	rows  int
-	cols  int
+	grid *grid.Grid[Cell]
 }
 
 func New(rows, cols int) *Colony {
-	cells := make([]Cell, rows*cols)
+	grid := grid.New[Cell](rows, cols)
 
-	c := &Colony{cells, rows, cols}
-	c.Traverse(func(x, y int, cell *Cell) {
+	c := &Colony{grid}
+	c.grid.Traverse(func(x, y int, cell *Cell) {
 		*cell = Cell(rand.Intn(2))
 	})
 
 	return c
-}
-
-func (c *Colony) Get(x, y int) *Cell {
-	return &c.cells[c.cols*y+x]
-}
-
-func (c *Colony) Set(x, y int, cell Cell) {
-	c.cells[c.cols*y+x] = cell
-}
-
-func (c *Colony) Traverse(f func(x, y int, cell *Cell)) {
-	for row := 0; row < c.rows; row++ {
-		for col := 0; col < c.cols; col++ {
-			f(col, row, c.Get(col, row))
-		}
-	}
 }
 
 type ColonyDrawer struct {
@@ -54,7 +37,7 @@ func NewDrawer(c *Colony, cellSize int) *ColonyDrawer {
 }
 
 func (cd *ColonyDrawer) Draw(imd *imdraw.IMDraw) {
-	cd.colony.Traverse(func(x, y int, cell *Cell) {
+	cd.colony.grid.Traverse(func(x, y int, cell *Cell) {
 		color := colornames.Tomato
 
 		if *cell == Cell(0) {
