@@ -21,12 +21,12 @@ func New(rows, cols, states int) *Colony {
 	return c
 }
 
-func (c *Colony) NextGen(rules func(cell int, neighbours int) int) {
+func (c *Colony) NextGen(rule func(cell int, neighbours int) int) {
 	copiedGrid := c.grid.Copy()
 
 	c.grid.Traverse(func(x, y int, cell *int) {
 		neighbours := countNeighbours(x, y, copiedGrid)
-		*cell = rules(*cell, neighbours)
+		*cell = rule(*cell, neighbours)
 	})
 }
 

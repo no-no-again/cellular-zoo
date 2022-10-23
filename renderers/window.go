@@ -3,7 +3,7 @@ package renderers
 import (
 	"github.com/zronev/cellular-zoo/colony"
 	"github.com/zronev/cellular-zoo/config"
-	"github.com/zronev/cellular-zoo/rules"
+	"github.com/zronev/cellular-zoo/rule"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -17,7 +17,7 @@ type WindowRenderer struct {
 	imd *imdraw.IMDraw
 
 	// TODO: Move state to different struct
-	rule         *rules.Rule
+	rule         *rule.Rule
 	colony       *colony.Colony
 	colonyDrawer *colony.ColonyDrawer
 }
@@ -37,7 +37,7 @@ func (wr *WindowRenderer) Setup() error {
 	wr.win = win
 	wr.imd = imdraw.New(nil)
 
-	rule, _ := rules.FromString("2-3/3/3/M")
+	rule, _ := rule.FromString("2-3/3/3/M")
 	wr.rule = rule
 
 	wr.colony = colony.New(
