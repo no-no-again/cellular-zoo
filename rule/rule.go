@@ -1,5 +1,7 @@
 package rule
 
+import "github.com/zronev/cellular-zoo/grid"
+
 type Neighbourhood int
 
 const (
@@ -22,7 +24,6 @@ func (r *Rule) States() int {
 	return r.states
 }
 
-// TODO: support different types of neighbourhoods
 func (r *Rule) Apply(cell, neighbours int) int {
 	switch {
 	case cell == 0:
@@ -40,4 +41,51 @@ func (r *Rule) Apply(cell, neighbours int) int {
 	default:
 		return cell
 	}
+}
+
+func (r *Rule) CountNeighbours(x, y int, g *grid.Grid[int]) int {
+	neighbours := 0
+
+	switch r.neighbourhood {
+	case Moore:
+		for i := -1; i < 2; i++ {
+			for j := -1; j < 2; j++ {
+				if i == 0 && j == 0 {
+					continue
+				}
+
+				x := x + i
+				y := y + j
+
+				if (x < 0 || x >= g.Cols()) ||
+					(y < 0 || y >= g.Rows()) {
+					continue
+				}
+
+				if *g.Get(x, y) != 0 {
+					neighbours++
+				}
+			}
+		}
+	case Neumann:
+		for i := -1; i < 2; i++ {
+			for j := -1; j < 2; j++ {
+				if (i == 0 && j != 0) || (j == 0 && i != 0) {
+					x := x + i
+					y := y + j
+
+					if (x < 0 || x >= g.Cols()) ||
+						(y < 0 || y >= g.Rows()) {
+						continue
+					}
+
+					if *g.Get(x, y) != 0 {
+						neighbours++
+					}
+				}
+			}
+		}
+	}
+
+	return neighbours
 }
