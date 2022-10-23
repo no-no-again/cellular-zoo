@@ -1,4 +1,4 @@
-package drawers
+package drawer
 
 import (
 	"image/color"

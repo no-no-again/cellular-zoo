@@ -1,7 +1,7 @@
 package colony
 
 import (
-	"github.com/zronev/cellular-zoo/drawers"
+	"github.com/zronev/cellular-zoo/drawer"
 
 	"github.com/faiface/pixel/imdraw"
 	"golang.org/x/image/colornames"
@@ -21,6 +21,8 @@ func (cd *ColonyDrawer) Draw(imd *imdraw.IMDraw) {
 		color := colornames.Snow
 
 		switch *cell {
+		case 4:
+			color = colornames.Cornflowerblue
 		case 3:
 			color = colornames.Wheat
 		case 2:
@@ -29,7 +31,7 @@ func (cd *ColonyDrawer) Draw(imd *imdraw.IMDraw) {
 			color = colornames.Darkslategray
 		}
 
-		drawers.DrawRect(
+		drawer.DrawRect(
 			imd,
 			float64(x*cd.cellSize),
 			float64(y*cd.cellSize),
