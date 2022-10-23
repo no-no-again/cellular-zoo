@@ -2,6 +2,24 @@ package rules
 
 import "fmt"
 
+type Neighbourhood int
+
+const (
+	Moore = Neighbourhood(iota)
+	Neumann
+)
+
+type Rule struct {
+	survival      map[int]bool
+	birth         map[int]bool
+	state         int
+	neighbourhood Neighbourhood
+}
+
+func FromString(rawString string) (rule *Rule, err error) {
+	return parseRule(rawString)
+}
+
 type GOLCell int
 
 func GOL(cell GOLCell, neighbours int) GOLCell {
