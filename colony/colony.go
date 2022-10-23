@@ -4,6 +4,7 @@ import (
 	"math/rand"
 
 	"github.com/zronev/cellular-zoo/grid"
+	"github.com/zronev/cellular-zoo/rule"
 )
 
 type Colony struct {
@@ -21,12 +22,12 @@ func New(rows, cols, states int) *Colony {
 	return c
 }
 
-func (c *Colony) NextGen(rule func(cell int, neighbours int) int) {
+func (c *Colony) NextGen(rule *rule.Rule) {
 	copiedGrid := c.grid.Copy()
 
 	c.grid.Traverse(func(x, y int, cell *int) {
 		neighbours := countNeighbours(x, y, copiedGrid)
-		*cell = rule(*cell, neighbours)
+		*cell = rule.Apply(*cell, neighbours)
 	})
 }
 

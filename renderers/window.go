@@ -51,7 +51,7 @@ func (wr *WindowRenderer) Setup() error {
 }
 
 func (wr *WindowRenderer) Update() {
-	wr.colony.NextGen(wr.rule.Apply)
+	wr.colony.NextGen(wr.rule)
 }
 
 func (wr *WindowRenderer) Draw() {
