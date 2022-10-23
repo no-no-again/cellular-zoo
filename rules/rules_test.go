@@ -2,24 +2,26 @@ package rules
 
 import "testing"
 
-func TestGOL(t *testing.T) {
+func TestGOLRule(t *testing.T) {
+	rule, _ := FromString("2-3/3/2/M")
+
 	cases := []struct {
 		neighbours int
-		cell       GOLCell
-		want       GOLCell
+		cell       int
+		want       int
 	}{
-		{cell: GOLCell(1), neighbours: 2, want: GOLCell(1)},
-		{cell: GOLCell(1), neighbours: 3, want: GOLCell(1)},
-		{cell: GOLCell(1), neighbours: 1, want: GOLCell(0)},
-		{cell: GOLCell(1), neighbours: 4, want: GOLCell(0)},
+		{cell: 1, neighbours: 2, want: 1},
+		{cell: 1, neighbours: 3, want: 1},
+		{cell: 1, neighbours: 1, want: 0},
+		{cell: 1, neighbours: 4, want: 0},
 
-		{cell: GOLCell(0), neighbours: 3, want: GOLCell(1)},
-		{cell: GOLCell(0), neighbours: 2, want: GOLCell(0)},
-		{cell: GOLCell(0), neighbours: 4, want: GOLCell(0)},
+		{cell: 0, neighbours: 3, want: 1},
+		{cell: 0, neighbours: 2, want: 0},
+		{cell: 0, neighbours: 4, want: 0},
 	}
 
 	for _, tt := range cases {
-		got := GOL(tt.cell, tt.neighbours)
+		got := rule.Apply(tt.cell, tt.neighbours)
 		if got != tt.want {
 			t.Errorf("want: %d, got: %d", tt.want, got)
 		}

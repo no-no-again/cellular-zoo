@@ -8,7 +8,7 @@ import (
 
 func TestCountNeighbours(t *testing.T) {
 	cases := []struct {
-		grid *grid.Grid[Cell]
+		grid *grid.Grid[int]
 		want int
 		x, y int
 	}{
@@ -18,9 +18,9 @@ func TestCountNeighbours(t *testing.T) {
 			y:    1,
 			grid: grid.NewFromValues(
 				3, 3,
-				Cell(0), Cell(0), Cell(0),
-				Cell(0), Cell(0), Cell(0),
-				Cell(0), Cell(0), Cell(0),
+				0, 0, 0,
+				0, 0, 0,
+				0, 0, 0,
 			),
 		},
 		{
@@ -29,9 +29,9 @@ func TestCountNeighbours(t *testing.T) {
 			y:    1,
 			grid: grid.NewFromValues(
 				3, 3,
-				Cell(0), Cell(1), Cell(1),
-				Cell(0), Cell(1), Cell(1),
-				Cell(1), Cell(1), Cell(0),
+				0, 1, 1,
+				0, 1, 1,
+				1, 1, 0,
 			),
 		},
 		{
@@ -40,9 +40,9 @@ func TestCountNeighbours(t *testing.T) {
 			y:    0,
 			grid: grid.NewFromValues(
 				3, 3,
-				Cell(0), Cell(1), Cell(1),
-				Cell(0), Cell(1), Cell(1),
-				Cell(1), Cell(1), Cell(0),
+				0, 1, 1,
+				0, 1, 1,
+				1, 1, 0,
 			),
 		},
 		{
@@ -51,9 +51,9 @@ func TestCountNeighbours(t *testing.T) {
 			y:    2,
 			grid: grid.NewFromValues(
 				3, 3,
-				Cell(0), Cell(1), Cell(1),
-				Cell(0), Cell(1), Cell(1),
-				Cell(1), Cell(1), Cell(0),
+				0, 1, 1,
+				0, 1, 1,
+				1, 1, 0,
 			),
 		},
 	}

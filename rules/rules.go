@@ -1,7 +1,5 @@
 package rules
 
-import "fmt"
-
 type Neighbourhood int
 
 const (
@@ -20,21 +18,22 @@ func FromString(rawString string) (rule *Rule, err error) {
 	return parseRule(rawString)
 }
 
-type GOLCell int
-
-func GOL(cell GOLCell, neighbours int) GOLCell {
-	switch cell {
-	case GOLCell(0):
-		if neighbours == 3 {
-			return GOLCell(1)
+// TODO: support different types of neighbourhoods
+func (r *Rule) Apply(cell, neighbours int) int {
+	switch {
+	case cell == 0:
+		if r.birth[neighbours] {
+			return r.state - 1
 		}
-		return GOLCell(0)
-	case GOLCell(1):
-		if neighbours < 2 || neighbours > 3 {
-			return GOLCell(0)
+		return 0
+	case cell == r.state-1:
+		if r.survival[neighbours] {
+			return r.state - 1
 		}
-		return GOLCell(1)
+		return r.state - 2
+	case cell < r.state-1:
+		return cell - 1
 	default:
-		panic(fmt.Sprintf("unknown cell state: %d", cell))
+		return cell
 	}
 }

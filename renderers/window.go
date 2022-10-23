@@ -13,10 +13,13 @@ import (
 
 // TODO: Split into separate struct
 type WindowRenderer struct {
-	win          *pixelgl.Window
-	imd          *imdraw.IMDraw
+	win *pixelgl.Window
+	imd *imdraw.IMDraw
+
+	// TODO: move state to different struct
 	colony       *colony.Colony
 	colonyDrawer *colony.ColonyDrawer
+	rule         *rules.Rule
 }
 
 func (wr *WindowRenderer) Setup() error {
@@ -36,13 +39,14 @@ func (wr *WindowRenderer) Setup() error {
 	wr.colony = colony.New(config.WindowHeight/config.CellSize, config.WindowWidth/config.CellSize)
 	wr.colonyDrawer = colony.NewDrawer(wr.colony, config.CellSize)
 
+	rule, _ := rules.FromString("2-3/3/3/M")
+	wr.rule = rule
+
 	return nil
 }
 
 func (wr *WindowRenderer) Update() {
-	wr.colony.NextGen(func(cell colony.Cell, neighbours int) colony.Cell {
-		return colony.Cell(rules.GOL(rules.GOLCell(cell), neighbours))
-	})
+	wr.colony.NextGen(wr.rule.Apply)
 }
 
 func (wr *WindowRenderer) Draw() {

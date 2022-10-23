@@ -10,33 +10,32 @@ const (
 	numberOfStates = 2
 )
 
-type Cell int
-
 type Colony struct {
-	grid *grid.Grid[Cell]
+	grid *grid.Grid[int]
 }
 
 func New(rows, cols int) *Colony {
-	grid := grid.New[Cell](rows, cols)
+	grid := grid.New[int](rows, cols)
 
 	c := &Colony{grid}
-	c.grid.Traverse(func(x, y int, cell *Cell) {
-		*cell = Cell(rand.Intn(numberOfStates))
+	c.grid.Traverse(func(x, y int, cell *int) {
+		// TODO: support different number of states
+		*cell = int(rand.Intn(numberOfStates))
 	})
 
 	return c
 }
 
-func (c *Colony) NextGen(rules func(cell Cell, neighbours int) Cell) {
+func (c *Colony) NextGen(rules func(cell int, neighbours int) int) {
 	copiedGrid := c.grid.Copy()
 
-	c.grid.Traverse(func(x, y int, cell *Cell) {
+	c.grid.Traverse(func(x, y int, cell *int) {
 		neighbours := countNeighbours(x, y, copiedGrid)
 		*cell = rules(*cell, neighbours)
 	})
 }
 
-func countNeighbours(x, y int, g *grid.Grid[Cell]) int {
+func countNeighbours(x, y int, g *grid.Grid[int]) int {
 	neighbours := 0
 
 	for i := -1; i < 2; i++ {
@@ -54,7 +53,7 @@ func countNeighbours(x, y int, g *grid.Grid[Cell]) int {
 			}
 
 			// TODO: make more generic
-			if *g.Get(x, y) == Cell(1) {
+			if *g.Get(x, y) == int(1) {
 				neighbours++
 			}
 		}

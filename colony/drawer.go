@@ -17,11 +17,18 @@ func NewDrawer(c *Colony, cellSize int) *ColonyDrawer {
 }
 
 func (cd *ColonyDrawer) Draw(imd *imdraw.IMDraw) {
-	cd.colony.grid.Traverse(func(x, y int, cell *Cell) {
-		color := colornames.Black
+	cd.colony.grid.Traverse(func(x, y int, cell *int) {
+		color := colornames.Snow
 
-		if *cell == Cell(0) {
-			color = colornames.Snow
+		switch *cell {
+		case 4:
+			color = colornames.Wheat
+		case 3:
+			color = colornames.Tomato
+		case 2:
+			color = colornames.Plum
+		case 1:
+			color = colornames.Darkslategray
 		}
 
 		drawers.DrawRect(
