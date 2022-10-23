@@ -1,22 +1,56 @@
 package main
 
 import (
-	"github.com/zronev/cellular-zoo/renderers"
-	"github.com/zronev/cellular-zoo/loop"
+	"fmt"
 
-	"github.com/faiface/pixel/pixelgl"
+	"github.com/zronev/cellular-zoo/colony"
+	"github.com/zronev/cellular-zoo/config"
+	"github.com/zronev/cellular-zoo/drawer"
+	"github.com/zronev/cellular-zoo/renderers"
+	"github.com/zronev/cellular-zoo/rule"
+	"github.com/zronev/cellular-zoo/scene"
 )
 
-func run() {
-	wr := new(renderers.WindowRenderer)
-	err := wr.Setup()
-	if err != nil {
-		panic(err)
-	}
-	loop.Loop(wr)
+type State struct {
+	rule         *rule.Rule
+	colony       *colony.Colony
+	colonyDrawer *colony.Drawer
 }
 
+type Scene struct {
+	state *State
+}
+
+func (s *Scene) Update() {
+	s.state.colony.NextGen(s.state.rule)
+}
+
+func (s *Scene) Draw(drawer drawer.Drawer) {
+	s.state.colonyDrawer.Draw(drawer)
+}
 
 func main() {
-	pixelgl.Run(run)
+	const ruleString = "2-3/3/2/M"
+
+	sceneOpts := &scene.Opts{
+		Renderer:  &renderers.WindowRenderer{},
+		FrameRate: config.FrameRate,
+	}
+
+	rule, err := rule.FromString(ruleString)
+	if err != nil {
+		panic(fmt.Sprintln("wrong rule: ", ruleString))
+	}
+
+	col := colony.New(
+		config.WindowHeight/config.CellSize,
+		config.WindowWidth/config.CellSize,
+		rule.States(),
+	)
+	colDrawer := colony.NewDrawer(col, config.CellSize)
+
+	state := &State{rule, col, colDrawer}
+	myScene := &Scene{state}
+
+	scene.Run(myScene, sceneOpts)
 }

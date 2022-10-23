@@ -6,17 +6,16 @@ import (
 	"golang.org/x/image/colornames"
 )
 
-type ColonyDrawer struct {
-	drawer   drawer.Drawer
+type Drawer struct {
 	colony   *Colony
 	cellSize int
 }
 
-func NewDrawer(drawer drawer.Drawer, colony *Colony, cellSize int) *ColonyDrawer {
-	return &ColonyDrawer{drawer, colony, cellSize}
+func NewDrawer(colony *Colony, cellSize int) *Drawer {
+	return &Drawer{colony, cellSize}
 }
 
-func (cd *ColonyDrawer) Draw() {
+func (cd *Drawer) Draw(drawer drawer.Drawer) {
 	cd.colony.grid.Traverse(func(x, y int, cell *int) {
 		color := colornames.Snow
 
@@ -31,7 +30,7 @@ func (cd *ColonyDrawer) Draw() {
 			color = colornames.Darkslategray
 		}
 
-		cd.drawer.DrawRect(
+		drawer.DrawRect(
 			float64(x*cd.cellSize),
 			float64(y*cd.cellSize),
 			float64(cd.cellSize),

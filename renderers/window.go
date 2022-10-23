@@ -1,10 +1,8 @@
 package renderers
 
 import (
-	"github.com/zronev/cellular-zoo/colony"
 	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/drawer"
-	"github.com/zronev/cellular-zoo/rule"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -12,15 +10,10 @@ import (
 	"golang.org/x/image/colornames"
 )
 
-// TODO: Split into separate struct
 type WindowRenderer struct {
-	win *pixelgl.Window
-	imd *imdraw.IMDraw
-
-	// TODO: Move state to different struct
-	rule         *rule.Rule
-	colony       *colony.Colony
-	colonyDrawer *colony.ColonyDrawer
+	win    *pixelgl.Window
+	imd    *imdraw.IMDraw
+	drawer drawer.Drawer
 }
 
 func (wr *WindowRenderer) Setup() error {
@@ -37,28 +30,17 @@ func (wr *WindowRenderer) Setup() error {
 
 	wr.win = win
 	wr.imd = imdraw.New(nil)
-
-	rule, _ := rule.FromString("2-3/3/3/M")
-	wr.rule = rule
-
-	wr.colony = colony.New(
-		config.WindowHeight/config.CellSize,
-		config.WindowWidth/config.CellSize,
-		wr.rule.States(),
-	)
-
-	drawer := drawer.NewIMDrawer(wr.imd)
-	wr.colonyDrawer = colony.NewDrawer(drawer, wr.colony, config.CellSize)
+	wr.drawer = drawer.NewIMDrawer(wr.imd)
 
 	return nil
 }
 
-func (wr *WindowRenderer) Update() {
-	wr.colony.NextGen(wr.rule)
+func (wr *WindowRenderer) Run(run func()) {
+	pixelgl.Run(run)
 }
 
-func (wr *WindowRenderer) Draw() {
-	wr.colonyDrawer.Draw()
+func (wr *WindowRenderer) Draw(draw func(d drawer.Drawer)) {
+	draw(wr.drawer)
 	wr.imd.Draw(wr.win)
 	wr.win.Update()
 }
