@@ -14,12 +14,13 @@ type Colony struct {
 func New(rows, cols, states int) *Colony {
 	grid := grid.New[int](rows, cols)
 
-	c := &Colony{grid}
-	c.grid.Traverse(func(x, y int, cell *int) {
-		*cell = int(rand.Intn(states))
-	})
+	for count := 0; count < (rows*cols)/3.0; count++ {
+		r := rand.Intn(rows)
+		c := rand.Intn(cols)
+		grid.Set(c, r, rand.Intn(states))
+	}
 
-	return c
+	return &Colony{grid}
 }
 
 func (c *Colony) NextGen(rule *rule.Rule) {
