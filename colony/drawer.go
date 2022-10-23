@@ -3,20 +3,20 @@ package colony
 import (
 	"github.com/zronev/cellular-zoo/drawer"
 
-	"github.com/faiface/pixel/imdraw"
 	"golang.org/x/image/colornames"
 )
 
 type ColonyDrawer struct {
+	drawer   drawer.Drawer
 	colony   *Colony
 	cellSize int
 }
 
-func NewDrawer(c *Colony, cellSize int) *ColonyDrawer {
-	return &ColonyDrawer{c, cellSize}
+func NewDrawer(drawer drawer.Drawer, colony *Colony, cellSize int) *ColonyDrawer {
+	return &ColonyDrawer{drawer, colony, cellSize}
 }
 
-func (cd *ColonyDrawer) Draw(imd *imdraw.IMDraw) {
+func (cd *ColonyDrawer) Draw() {
 	cd.colony.grid.Traverse(func(x, y int, cell *int) {
 		color := colornames.Snow
 
@@ -31,8 +31,7 @@ func (cd *ColonyDrawer) Draw(imd *imdraw.IMDraw) {
 			color = colornames.Darkslategray
 		}
 
-		drawer.DrawRect(
-			imd,
+		cd.drawer.DrawRect(
 			float64(x*cd.cellSize),
 			float64(y*cd.cellSize),
 			float64(cd.cellSize),

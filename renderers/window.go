@@ -3,6 +3,7 @@ package renderers
 import (
 	"github.com/zronev/cellular-zoo/colony"
 	"github.com/zronev/cellular-zoo/config"
+	"github.com/zronev/cellular-zoo/drawer"
 	"github.com/zronev/cellular-zoo/rule"
 
 	"github.com/faiface/pixel"
@@ -45,7 +46,9 @@ func (wr *WindowRenderer) Setup() error {
 		config.WindowWidth/config.CellSize,
 		wr.rule.States(),
 	)
-	wr.colonyDrawer = colony.NewDrawer(wr.colony, config.CellSize)
+
+	drawer := drawer.NewIMDrawer(wr.imd)
+	wr.colonyDrawer = colony.NewDrawer(drawer, wr.colony, config.CellSize)
 
 	return nil
 }
@@ -55,7 +58,7 @@ func (wr *WindowRenderer) Update() {
 }
 
 func (wr *WindowRenderer) Draw() {
-	wr.colonyDrawer.Draw(wr.imd)
+	wr.colonyDrawer.Draw()
 	wr.imd.Draw(wr.win)
 	wr.win.Update()
 }
