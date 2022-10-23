@@ -15,8 +15,8 @@ func parseRule(rawRule string) (rule *Rule, err error) {
 	rule.survival = parseCommaSeparatedValuesWithRanges(split[0])
 	rule.birth = parseCommaSeparatedValuesWithRanges(split[1])
 
-	state, _ := strconv.Atoi(split[2])
-	rule.state = state
+	states, _ := strconv.Atoi(split[2])
+	rule.states = states
 
 	switch split[3] {
 	case "M":

@@ -1,10 +1,10 @@
 package config
 
 const (
-	WindowWidth  = 1000
-	WindowHeight = 700
+	WindowWidth  = 600
+	WindowHeight = 600
 
-	FPS       = 60.0
+	FPS       = 5.0
 	FrameRate = 1.0 / FPS
 
 	CellSize = 5

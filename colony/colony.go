@@ -6,21 +6,16 @@ import (
 	"github.com/zronev/cellular-zoo/grid"
 )
 
-const (
-	numberOfStates = 2
-)
-
 type Colony struct {
 	grid *grid.Grid[int]
 }
 
-func New(rows, cols int) *Colony {
+func New(rows, cols, states int) *Colony {
 	grid := grid.New[int](rows, cols)
 
 	c := &Colony{grid}
 	c.grid.Traverse(func(x, y int, cell *int) {
-		// TODO: support different number of states
-		*cell = int(rand.Intn(numberOfStates))
+		*cell = int(rand.Intn(states))
 	})
 
 	return c
@@ -52,8 +47,7 @@ func countNeighbours(x, y int, g *grid.Grid[int]) int {
 				continue
 			}
 
-			// TODO: make more generic
-			if *g.Get(x, y) == int(1) {
+			if *g.Get(x, y) != 0 {
 				neighbours++
 			}
 		}

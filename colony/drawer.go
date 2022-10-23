@@ -21,12 +21,10 @@ func (cd *ColonyDrawer) Draw(imd *imdraw.IMDraw) {
 		color := colornames.Snow
 
 		switch *cell {
-		case 4:
-			color = colornames.Wheat
 		case 3:
-			color = colornames.Tomato
+			color = colornames.Wheat
 		case 2:
-			color = colornames.Plum
+			color = colornames.Tomato
 		case 1:
 			color = colornames.Darkslategray
 		}
