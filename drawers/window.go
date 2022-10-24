@@ -1,4 +1,4 @@
-package drawer
+package drawers
 
 import (
 	"image/color"
@@ -9,15 +9,15 @@ import (
 	"github.com/faiface/pixel/imdraw"
 )
 
-type IMDrawer struct {
+type WindowDrawer struct {
 	imd *imdraw.IMDraw
 }
 
-func NewIMDrawer(imd *imdraw.IMDraw) *IMDrawer {
-	return &IMDrawer{imd}
+func NewWindowDrawer(imd *imdraw.IMDraw) *WindowDrawer {
+	return &WindowDrawer{imd}
 }
 
-func (d *IMDrawer) DrawRect(x, y, w, h float64, color color.RGBA) {
+func (d *WindowDrawer) DrawRect(x, y, w, h float64, color color.RGBA) {
 	y = config.WindowHeight - y
 
 	rect := pixel.R(x, y, x+w, y-h).Norm()

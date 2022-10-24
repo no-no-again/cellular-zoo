@@ -2,7 +2,7 @@ package renderers
 
 import (
 	"github.com/zronev/cellular-zoo/config"
-	"github.com/zronev/cellular-zoo/drawer"
+	"github.com/zronev/cellular-zoo/drawers"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -11,9 +11,9 @@ import (
 )
 
 type WindowRenderer struct {
+	drawer drawers.Drawer
 	win    *pixelgl.Window
 	imd    *imdraw.IMDraw
-	drawer drawer.Drawer
 }
 
 func (wr *WindowRenderer) Setup() error {
@@ -30,7 +30,7 @@ func (wr *WindowRenderer) Setup() error {
 
 	wr.win = win
 	wr.imd = imdraw.New(nil)
-	wr.drawer = drawer.NewIMDrawer(wr.imd)
+	wr.drawer = drawers.NewWindowDrawer(wr.imd)
 
 	return nil
 }
@@ -39,7 +39,7 @@ func (wr *WindowRenderer) Run(run func()) {
 	pixelgl.Run(run)
 }
 
-func (wr *WindowRenderer) Draw(draw func(d drawer.Drawer)) {
+func (wr *WindowRenderer) Draw(draw func(d drawers.Drawer)) {
 	draw(wr.drawer)
 	wr.imd.Draw(wr.win)
 	wr.win.Update()

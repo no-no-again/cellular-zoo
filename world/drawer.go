@@ -1,22 +1,22 @@
-package colony
+package world
 
 import (
-	"github.com/zronev/cellular-zoo/drawer"
+	"github.com/zronev/cellular-zoo/drawers"
 
 	"golang.org/x/image/colornames"
 )
 
 type Drawer struct {
-	colony   *Colony
+	world   *World
 	cellSize int
 }
 
-func NewDrawer(colony *Colony, cellSize int) *Drawer {
-	return &Drawer{colony, cellSize}
+func NewDrawer(world *World, cellSize int) *Drawer {
+	return &Drawer{world, cellSize}
 }
 
-func (cd *Drawer) Draw(drawer drawer.Drawer) {
-	cd.colony.grid.Traverse(func(x, y int, cell *int) {
+func (cd *Drawer) Draw(drawer drawers.Drawer) {
+	cd.world.grid.Traverse(func(x, y int, cell *int) {
 		color := colornames.Snow
 
 		switch *cell {

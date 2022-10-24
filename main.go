@@ -3,18 +3,18 @@ package main
 import (
 	"fmt"
 
-	"github.com/zronev/cellular-zoo/colony"
 	"github.com/zronev/cellular-zoo/config"
-	"github.com/zronev/cellular-zoo/drawer"
+	"github.com/zronev/cellular-zoo/drawers"
 	"github.com/zronev/cellular-zoo/renderers"
 	"github.com/zronev/cellular-zoo/rule"
 	"github.com/zronev/cellular-zoo/scene"
+	"github.com/zronev/cellular-zoo/world"
 )
 
 type State struct {
-	rule         *rule.Rule
-	colony       *colony.Colony
-	colonyDrawer *colony.Drawer
+	rule        *rule.Rule
+	world       *world.World
+	worldDrawer *world.Drawer
 }
 
 type Scene struct {
@@ -22,11 +22,11 @@ type Scene struct {
 }
 
 func (s *Scene) Update() {
-	s.state.colony.NextGen(s.state.rule)
+	s.state.world.NextGen(s.state.rule)
 }
 
-func (s *Scene) Draw(drawer drawer.Drawer) {
-	s.state.colonyDrawer.Draw(drawer)
+func (s *Scene) Draw(drawer drawers.Drawer) {
+	s.state.worldDrawer.Draw(drawer)
 }
 
 func main() {
@@ -41,14 +41,14 @@ func main() {
 		panic(fmt.Sprintln("wrong rule: ", ruleString))
 	}
 
-	col := colony.New(
+	wld := world.New(
 		config.WindowHeight/config.CellSize,
 		config.WindowWidth/config.CellSize,
 		rule.States(),
 	)
-	colDrawer := colony.NewDrawer(col, config.CellSize)
+	wldDrawer := world.NewDrawer(wld, config.CellSize)
 
-	state := &State{rule, col, colDrawer}
+	state := &State{rule, wld, wldDrawer}
 	myScene := &Scene{state}
 
 	scene.Run(myScene, sceneOpts)

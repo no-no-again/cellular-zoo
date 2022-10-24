@@ -4,13 +4,13 @@ import (
 	"time"
 
 	"github.com/zronev/cellular-zoo/config"
-	"github.com/zronev/cellular-zoo/drawer"
+	"github.com/zronev/cellular-zoo/drawers"
 	"github.com/zronev/cellular-zoo/renderers"
 )
 
 type Scene interface {
 	Update()
-	Draw(drawer drawer.Drawer)
+	Draw(drawer drawers.Drawer)
 }
 
 type Opts struct {
@@ -35,7 +35,7 @@ func loop(scene Scene, opts *Opts) {
 
 		scene.Update()
 
-		opts.Renderer.Draw(func(d drawer.Drawer) {
+		opts.Renderer.Draw(func(d drawers.Drawer) {
 			scene.Draw(d)
 		})
 

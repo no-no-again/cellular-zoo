@@ -1,4 +1,4 @@
-package colony
+package world
 
 import (
 	"math/rand"
@@ -7,11 +7,11 @@ import (
 	"github.com/zronev/cellular-zoo/rule"
 )
 
-type Colony struct {
+type World struct {
 	grid *grid.Grid[int]
 }
 
-func New(rows, cols, states int) *Colony {
+func New(rows, cols, states int) *World {
 	grid := grid.New[int](rows, cols)
 
 	for count := 0; count < (rows*cols)/4.0; count++ {
@@ -20,10 +20,10 @@ func New(rows, cols, states int) *Colony {
 		grid.Set(c, r, rand.Intn(states))
 	}
 
-	return &Colony{grid}
+	return &World{grid}
 }
 
-func (c *Colony) NextGen(rule *rule.Rule) {
+func (c *World) NextGen(rule *rule.Rule) {
 	copiedGrid := c.grid.Copy()
 
 	c.grid.Traverse(func(x, y int, cell *int) {
