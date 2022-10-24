@@ -30,11 +30,10 @@ func (s *Scene) Draw(drawer drawer.Drawer) {
 }
 
 func main() {
-	const ruleString = "2-3/3/2/M"
+	const ruleString = config.DefaultRule
 
 	sceneOpts := &scene.Opts{
-		Renderer:  &renderers.WindowRenderer{},
-		FrameRate: config.FrameRate,
+		Renderer: &renderers.WindowRenderer{},
 	}
 
 	rule, err := rule.FromString(ruleString)
