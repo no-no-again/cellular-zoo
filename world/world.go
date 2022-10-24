@@ -3,6 +3,7 @@ package world
 import (
 	"math/rand"
 
+	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/grid"
 	"github.com/zronev/cellular-zoo/rule"
 )
@@ -13,8 +14,9 @@ type World struct {
 
 func New(rows, cols, states int) *World {
 	grid := grid.New[int](rows, cols)
+	cap := int(float64(rows*cols) * config.SpawnCapacity)
 
-	for count := 0; count < (rows*cols)/4.0; count++ {
+	for count := 0; count < cap; count++ {
 		r := rand.Intn(rows)
 		c := rand.Intn(cols)
 		grid.Set(c, r, rand.Intn(states))
