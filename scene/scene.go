@@ -1,44 +1,61 @@
 package scene
 
 import (
+	"log"
 	"time"
 
+	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
+	"github.com/faiface/pixel/pixelgl"
 	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/drawers"
-	"github.com/zronev/cellular-zoo/renderers"
 )
 
 type Scene interface {
+	Setup()
 	Update()
+	Input(win *pixelgl.Window)
 	Draw(drawer drawers.Drawer)
 }
 
-type Opts struct {
-	Renderer renderers.Renderer
+func Run(scene Scene) {
+	pixelgl.Run(func() { run(scene) })
 }
 
-func Run(scene Scene, opts *Opts) {
-	opts.Renderer.Run(func() {
-		err := opts.Renderer.Setup()
-		if err != nil {
-			panic(err)
+func run(scene Scene) {
+	cfg := pixelgl.WindowConfig{
+		Title:  "Cellular Zoo",
+		Bounds: pixel.R(0, 0, config.WindowWidth, config.WindowHeight),
+		VSync:  true,
+	}
+
+	win, err := pixelgl.NewWindow(cfg)
+	if err != nil {
+		log.Fatal("failed to create a window", err)
+	}
+
+	imd := imdraw.New(nil)
+	drawer := drawers.NewWindowDrawer(imd, int(cfg.Bounds.W()), int(cfg.Bounds.H()))
+
+	scene.Setup()
+
+	last := time.Now().UnixNano()
+	for !win.Closed() {
+		now := time.Now().UnixNano()
+		dt := float64(now-last) / 1_000_000_000
+
+		scene.Input(win)
+
+		win.Clear(config.DefaultBackground)
+		imd.Clear()
+
+		if dt >= config.FrameRate {
+			last = now
+			scene.Update()
 		}
-		loop(scene, opts)
-	})
-}
 
-func loop(scene Scene, opts *Opts) {
-	ticker := time.NewTicker(time.Second / config.FPS)
-
-	for opts.Renderer.Running() {
-		opts.Renderer.Clear()
-
-		scene.Update()
-
-		opts.Renderer.Draw(func(d drawers.Drawer) {
-			scene.Draw(d)
-		})
-
-		<-ticker.C
+		scene.Draw(drawer)
+		imd.Draw(win)
+		win.Update()
 	}
 }

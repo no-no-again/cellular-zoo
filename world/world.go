@@ -13,17 +13,12 @@ type World struct {
 	grid *grid.Grid[int]
 }
 
-func New(rows, cols, states int, spawnCap float64) *World {
-	grid := grid.New[int](rows, cols)
-	cap := int(float64(rows*cols) * spawnCap)
-
-	for count := 0; count < cap; count++ {
-		r := rand.Intn(rows)
-		c := rand.Intn(cols)
-		grid.Set(c, r, rand.Intn(states))
+func New(rows, cols int, rule *rule.Rule, spawnCap float64) *World {
+	w := &World{
+		grid: grid.New[int](rows, cols),
 	}
-
-	return &World{grid}
+	w.Spawn(rule, spawnCap)
+	return w
 }
 
 func FromGrid(grid *grid.Grid[int]) *World {
@@ -58,4 +53,22 @@ func (w *World) nextGen(rule *rule.Rule, nworkers int) {
 	}
 
 	wg.Wait()
+}
+
+func (w *World) Spawn(rule *rule.Rule, spawnCap float64) {
+	rows := w.grid.Rows()
+	cols := w.grid.Cols()
+
+	cap := int(float64(rows*cols) * spawnCap)
+
+	for count := 0; count < cap; count++ {
+		x := rand.Intn(cols)
+		y := rand.Intn(rows)
+		states := rand.Intn(rule.States())
+		w.grid.Set(x, y, states)
+	}
+}
+
+func (w *World) Clear() {
+	w.grid = grid.New[int](w.grid.Rows(), w.grid.Cols())
 }

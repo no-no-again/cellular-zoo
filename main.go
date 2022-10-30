@@ -3,54 +3,63 @@ package main
 import (
 	"fmt"
 
+	"github.com/faiface/pixel/pixelgl"
 	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/drawers"
-	"github.com/zronev/cellular-zoo/renderers"
 	"github.com/zronev/cellular-zoo/rule"
 	"github.com/zronev/cellular-zoo/scene"
 	"github.com/zronev/cellular-zoo/world"
 )
 
-type State struct {
+type state struct {
 	rule        *rule.Rule
 	world       *world.World
 	worldDrawer *world.Drawer
 }
 
-type Scene struct {
-	state *State
+type myScene struct {
+	state *state
 }
 
-func (s *Scene) Update() {
-	s.state.world.NextGen(s.state.rule)
-}
-
-func (s *Scene) Draw(drawer drawers.Drawer) {
-	s.state.worldDrawer.Draw(drawer)
-}
-
-func main() {
+func (s *myScene) Setup() {
 	const ruleString = config.DefaultRule
-
-	sceneOpts := &scene.Opts{
-		Renderer: &renderers.WindowRenderer{},
-	}
 
 	rule, err := rule.FromString(ruleString)
 	if err != nil {
-		panic(fmt.Sprintln("wrong rule: ", ruleString))
+		panic(fmt.Sprintln("invalid rule: ", ruleString))
 	}
 
-	w := world.New(
-		config.WindowHeight/config.CellSize,
-		config.WindowWidth/config.CellSize,
-		rule.States(),
-		config.SpawnCapacity,
-	)
+	rols := config.WindowHeight / config.CellSize
+	cols := config.WindowWidth / config.CellSize
+
+	w := world.New(rols, cols, rule, config.SpawnCapacity)
 	wd := world.NewDrawer(w, config.DefaultPalette, config.CellSize)
 
-	state := &State{rule, w, wd}
-	myScene := &Scene{state}
+	s.state = &state{
+		rule:        rule,
+		world:       w,
+		worldDrawer: wd,
+	}
+}
 
-	scene.Run(myScene, sceneOpts)
+func (s *myScene) Update() {
+	s.state.world.NextGen(s.state.rule)
+}
+
+func (s *myScene) Draw(drawer drawers.Drawer) {
+	s.state.worldDrawer.Draw(drawer)
+}
+
+func (s *myScene) Input(win *pixelgl.Window) {
+	if win.JustPressed(pixelgl.KeyS) {
+		s.state.world.Spawn(s.state.rule, config.SpawnCapacity)
+	}
+
+	if win.JustPressed(pixelgl.KeyC) {
+		s.state.world.Clear()
+	}
+}
+
+func main() {
+	scene.Run(&myScene{})
 }
