@@ -1,11 +1,13 @@
 package rule
 
-import "github.com/zronev/cellular-zoo/grid"
+import (
+	"fmt"
 
-type Neighbourhood int
+	"github.com/zronev/cellular-zoo/grid"
+)
 
 const (
-	Moore = Neighbourhood(iota)
+	Moore = iota
 	Neumann
 )
 
@@ -13,7 +15,7 @@ type Rule struct {
 	survival      map[int]bool
 	birth         map[int]bool
 	states        int
-	neighbourhood Neighbourhood
+	neighbourhood int
 }
 
 func FromString(rawString string) (rule *Rule, err error) {
@@ -26,21 +28,45 @@ func (r *Rule) States() int {
 
 func (r *Rule) Apply(cell, neighbours int) int {
 	switch {
-	case cell == 0:
+	case r.IsCellDead(cell):
 		if r.birth[neighbours] {
-			return r.states - 1
+			return r.LiveCell()
 		}
-		return 0
-	case cell == r.states-1:
+		return r.DeadCell()
+	case r.IsCellAlive(cell):
 		if r.survival[neighbours] {
-			return r.states - 1
+			return r.LiveCell()
 		}
-		return r.states - 2
-	case cell < r.states-1:
-		return cell - 1
+		return r.DyingCell(cell)
+	case r.IsCellDying(cell):
+		return r.DyingCell(cell)
 	default:
-		return cell
+		panic(fmt.Sprintf("a cell with an impossible state: %d\n", cell))
 	}
+}
+
+func (r *Rule) DeadCell() int {
+	return 0
+}
+
+func (r *Rule) LiveCell() int {
+	return r.states - 1
+}
+
+func (r *Rule) DyingCell(cell int) int {
+	return cell - 1
+}
+
+func (r *Rule) IsCellDead(cell int) bool {
+	return cell == 0
+}
+
+func (r *Rule) IsCellAlive(cell int) bool {
+	return cell == r.states-1
+}
+
+func (r *Rule) IsCellDying(cell int) bool {
+	return cell > 0 && cell < r.states-1
 }
 
 func (r *Rule) CountNeighbours(x, y int, g *grid.Grid[int]) int {
