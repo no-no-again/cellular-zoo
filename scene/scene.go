@@ -1,7 +1,7 @@
 package scene
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"github.com/faiface/pixel"
@@ -31,7 +31,7 @@ func run(scene Scene) {
 
 	win, err := pixelgl.NewWindow(cfg)
 	if err != nil {
-		log.Fatal("failed to create a window", err)
+		panic(fmt.Sprintf("failed to create a window: %v", err))
 	}
 
 	imd := imdraw.New(nil)
