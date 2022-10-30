@@ -35,7 +35,7 @@ func (s *myScene) Setup() {
 	w := world.New(
 		rols,
 		cols,
-		rule.States(),
+		rule,
 		config.SpawnCapacity,
 	)
 	wd := world.NewDrawer(w, config.DefaultPalette, config.CellSize)
