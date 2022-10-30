@@ -28,9 +28,12 @@ func (s *myScene) Setup() {
 		panic(fmt.Sprintln("invalid rule: ", ruleString))
 	}
 
+	rols := config.WindowHeight / config.CellSize
+	cols := config.WindowWidth / config.CellSize
+
 	w := world.New(
-		config.WindowHeight/config.CellSize,
-		config.WindowWidth/config.CellSize,
+		rols,
+		cols,
 		rule.States(),
 		config.SpawnCapacity,
 	)
