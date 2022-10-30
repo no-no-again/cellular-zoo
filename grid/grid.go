@@ -1,5 +1,7 @@
 package grid
 
+import "fmt"
+
 type Grid[T any] struct {
 	vals []T
 	rows int
@@ -43,4 +45,13 @@ func (g *Grid[T]) Copy() *Grid[T] {
 	copied := make([]T, g.rows*g.cols)
 	copy(copied, g.vals)
 	return &Grid[T]{copied, g.rows, g.cols}
+}
+
+func (g *Grid[T]) Debug() {
+	for row := 0; row < g.rows; row++ {
+		for col := 0; col < g.cols; col++ {
+			fmt.Printf("%v ", *g.Get(col, row))
+		}
+		fmt.Println()
+	}
 }
