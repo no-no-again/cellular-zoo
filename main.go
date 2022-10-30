@@ -5,7 +5,6 @@ import (
 
 	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/drawers"
-	"github.com/zronev/cellular-zoo/renderers"
 	"github.com/zronev/cellular-zoo/rule"
 	"github.com/zronev/cellular-zoo/scene"
 	"github.com/zronev/cellular-zoo/world"
@@ -32,10 +31,6 @@ func (s *Scene) Draw(drawer drawers.Drawer) {
 func main() {
 	const ruleString = config.DefaultRule
 
-	sceneOpts := &scene.Opts{
-		Renderer: &renderers.WindowRenderer{},
-	}
-
 	rule, err := rule.FromString(ruleString)
 	if err != nil {
 		panic(fmt.Sprintln("wrong rule: ", ruleString))
@@ -52,5 +47,5 @@ func main() {
 	state := &State{rule, w, wd}
 	myScene := &Scene{state}
 
-	scene.Run(myScene, sceneOpts)
+	scene.Run(myScene)
 }

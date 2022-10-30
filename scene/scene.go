@@ -1,11 +1,15 @@
 package scene
 
 import (
+	"log"
 	"time"
 
+	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
+	"github.com/faiface/pixel/pixelgl"
 	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/drawers"
-	"github.com/zronev/cellular-zoo/renderers"
+	"golang.org/x/image/colornames"
 )
 
 type Scene interface {
@@ -13,31 +17,36 @@ type Scene interface {
 	Draw(drawer drawers.Drawer)
 }
 
-type Opts struct {
-	Renderer renderers.Renderer
+func Run(scene Scene) {
+	pixelgl.Run(func() { run(scene) })
 }
 
-func Run(scene Scene, opts *Opts) {
-	opts.Renderer.Run(func() {
-		err := opts.Renderer.Setup()
-		if err != nil {
-			panic(err)
-		}
-		loop(scene, opts)
-	})
-}
+func run(scene Scene) {
+	cfg := pixelgl.WindowConfig{
+		Title:  "Cellular Zoo",
+		Bounds: pixel.R(0, 0, config.WindowWidth, config.WindowHeight),
+		VSync:  true,
+	}
 
-func loop(scene Scene, opts *Opts) {
+	win, err := pixelgl.NewWindow(cfg)
+	if err != nil {
+		log.Fatal("failed to create a window", err)
+	}
+
+	imd := imdraw.New(nil)
+	drawer := drawers.NewWindowDrawer(imd, int(cfg.Bounds.W()), int(cfg.Bounds.H()))
+
 	ticker := time.NewTicker(time.Second / config.FPS)
 
-	for opts.Renderer.Running() {
-		opts.Renderer.Clear()
+	for !win.Closed() {
+		win.Clear(colornames.Snow)
+		imd.Clear()
 
 		scene.Update()
+		scene.Draw(drawer)
 
-		opts.Renderer.Draw(func(d drawers.Drawer) {
-			scene.Draw(d)
-		})
+		imd.Draw(win)
+		win.Update()
 
 		<-ticker.C
 	}
