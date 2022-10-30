@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/faiface/pixel/pixelgl"
 	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/drawers"
 	"github.com/zronev/cellular-zoo/rule"
@@ -48,6 +49,12 @@ func (s *myScene) Update() {
 
 func (s *myScene) Draw(drawer drawers.Drawer) {
 	s.state.worldDrawer.Draw(drawer)
+}
+
+func (s *myScene) Input(win *pixelgl.Window) {
+	if win.JustPressed(pixelgl.KeyS) {
+		fmt.Println("S")
+	}
 }
 
 func main() {

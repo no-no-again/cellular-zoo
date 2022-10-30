@@ -15,6 +15,7 @@ import (
 type Scene interface {
 	Setup()
 	Update()
+	Input(win *pixelgl.Window)
 	Draw(drawer drawers.Drawer)
 }
 
@@ -39,18 +40,23 @@ func run(scene Scene) {
 
 	scene.Setup()
 
-	ticker := time.NewTicker(time.Second / config.FPS)
-
+	last := time.Now().UnixNano()
 	for !win.Closed() {
+		now := time.Now().UnixNano()
+		dt := float64(now-last) / 1_000_000_000
+
+		scene.Input(win)
+
 		win.Clear(colornames.Snow)
 		imd.Clear()
 
-		scene.Update()
-		scene.Draw(drawer)
+		if dt >= config.FrameRate {
+			last = now
+			scene.Update()
+		}
 
+		scene.Draw(drawer)
 		imd.Draw(win)
 		win.Update()
-
-		<-ticker.C
 	}
 }
