@@ -7,8 +7,8 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
-	"github.com/zronev/cellular-zoo/config"
-	"github.com/zronev/cellular-zoo/drawers"
+	"github.com/no-no-again/cellular-zoo/config"
+	"github.com/no-no-again/cellular-zoo/drawers"
 )
 
 type Scene interface {

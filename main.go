@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	"github.com/faiface/pixel/pixelgl"
-	"github.com/zronev/cellular-zoo/config"
-	"github.com/zronev/cellular-zoo/drawers"
-	"github.com/zronev/cellular-zoo/rule"
-	"github.com/zronev/cellular-zoo/scene"
-	"github.com/zronev/cellular-zoo/world"
+	"github.com/no-no-again/cellular-zoo/config"
+	"github.com/no-no-again/cellular-zoo/drawers"
+	"github.com/no-no-again/cellular-zoo/rule"
+	"github.com/no-no-again/cellular-zoo/scene"
+	"github.com/no-no-again/cellular-zoo/world"
 )
 
 type state struct {

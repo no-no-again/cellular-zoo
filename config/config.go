@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/zronev/cellular-zoo/world"
+	"github.com/no-no-again/cellular-zoo/world"
 	"golang.org/x/image/colornames"
 )
 

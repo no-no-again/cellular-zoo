@@ -1,4 +1,4 @@
-module github.com/zronev/cellular-zoo
+module github.com/no-no-again/cellular-zoo
 
 go 1.19
 

@@ -3,7 +3,7 @@ package rule
 import (
 	"testing"
 
-	"github.com/zronev/cellular-zoo/grid"
+	"github.com/no-no-again/cellular-zoo/grid"
 )
 
 func TestGOLRule(t *testing.T) {

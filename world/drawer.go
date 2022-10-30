@@ -3,7 +3,7 @@ package world
 import (
 	"image/color"
 
-	"github.com/zronev/cellular-zoo/drawers"
+	"github.com/no-no-again/cellular-zoo/drawers"
 )
 
 type Palette []color.RGBA

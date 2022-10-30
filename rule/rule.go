@@ -3,7 +3,7 @@ package rule
 import (
 	"fmt"
 
-	"github.com/zronev/cellular-zoo/grid"
+	"github.com/no-no-again/cellular-zoo/grid"
 )
 
 const (

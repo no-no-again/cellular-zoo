@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/zronev/cellular-zoo/grid"
-	"github.com/zronev/cellular-zoo/rule"
+	"github.com/no-no-again/cellular-zoo/grid"
+	"github.com/no-no-again/cellular-zoo/rule"
 )
 
 func TestWorld(t *testing.T) {
