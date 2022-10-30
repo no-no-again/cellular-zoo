@@ -41,14 +41,15 @@ func main() {
 		panic(fmt.Sprintln("wrong rule: ", ruleString))
 	}
 
-	wld := world.New(
+	w := world.New(
 		config.WindowHeight/config.CellSize,
 		config.WindowWidth/config.CellSize,
 		rule.States(),
+		config.SpawnCapacity,
 	)
-	wldDrawer := world.NewDrawer(wld, config.CellSize)
+	wd := world.NewDrawer(w, config.DefaultPalette, config.CellSize)
 
-	state := &State{rule, wld, wldDrawer}
+	state := &State{rule, w, wd}
 	myScene := &Scene{state}
 
 	scene.Run(myScene, sceneOpts)

@@ -1,5 +1,10 @@
 package config
 
+import (
+	"github.com/zronev/cellular-zoo/world"
+	"golang.org/x/image/colornames"
+)
+
 const (
 	WindowWidth   = 600
 	WindowHeight  = 700
@@ -9,3 +14,12 @@ const (
 	CellSize      = 5
 	DefaultRule   = "2-3/3/2/M"
 )
+
+// TODO: support 10 colors
+var DefaultPalette = world.Palette{
+	colornames.Snow,
+	colornames.Darkslategray,
+	colornames.Tomato,
+	colornames.Wheat,
+	colornames.Cornflowerblue,
+}

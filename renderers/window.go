@@ -30,7 +30,7 @@ func (wr *WindowRenderer) Setup() error {
 
 	wr.win = win
 	wr.imd = imdraw.New(nil)
-	wr.drawer = drawers.NewWindowDrawer(wr.imd)
+	wr.drawer = drawers.NewWindowDrawer(wr.imd, int(cfg.Bounds.W()), int(cfg.Bounds.H()))
 
 	return nil
 }

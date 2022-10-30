@@ -1,41 +1,32 @@
 package world
 
 import (
-	"github.com/zronev/cellular-zoo/drawers"
+	"image/color"
 
-	"golang.org/x/image/colornames"
+	"github.com/zronev/cellular-zoo/drawers"
 )
 
+type Palette []color.RGBA
+
 type Drawer struct {
-	world   *World
+	world    *World
+	palette  Palette
 	cellSize int
 }
 
-func NewDrawer(world *World, cellSize int) *Drawer {
-	return &Drawer{world, cellSize}
+func NewDrawer(world *World, palette Palette, cellSize int) *Drawer {
+	return &Drawer{world, palette, cellSize}
 }
 
-func (cd *Drawer) Draw(drawer drawers.Drawer) {
-	cd.world.grid.Traverse(func(x, y int, cell *int) {
-		color := colornames.Snow
-
-		switch *cell {
-		case 4:
-			color = colornames.Cornflowerblue
-		case 3:
-			color = colornames.Wheat
-		case 2:
-			color = colornames.Tomato
-		case 1:
-			color = colornames.Darkslategray
-		}
+func (wd *Drawer) Draw(drawer drawers.Drawer) {
+	wd.world.grid.Traverse(func(x, y int, cell *int) {
 
 		drawer.DrawRect(
-			float64(x*cd.cellSize),
-			float64(y*cd.cellSize),
-			float64(cd.cellSize),
-			float64(cd.cellSize),
-			color,
+			float64(x*wd.cellSize),
+			float64(y*wd.cellSize),
+			float64(wd.cellSize),
+			float64(wd.cellSize),
+			wd.palette[*cell],
 		)
 	})
 }
