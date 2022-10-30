@@ -9,7 +9,6 @@ import (
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/drawers"
-	"golang.org/x/image/colornames"
 )
 
 type Scene interface {
@@ -47,7 +46,7 @@ func run(scene Scene) {
 
 		scene.Input(win)
 
-		win.Clear(colornames.Snow)
+		win.Clear(config.DefaultBackground)
 		imd.Clear()
 
 		if dt >= config.FrameRate {

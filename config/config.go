@@ -23,3 +23,5 @@ var DefaultPalette = world.Palette{
 	colornames.Wheat,
 	colornames.Cornflowerblue,
 }
+
+var DefaultBackground = DefaultPalette[0]
