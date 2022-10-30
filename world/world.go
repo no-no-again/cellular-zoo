@@ -68,3 +68,7 @@ func (w *World) Spawn(rule *rule.Rule, spawnCap float64) {
 		w.grid.Set(x, y, states)
 	}
 }
+
+func (w *World) Clear() {
+	w.grid = grid.New[int](w.grid.Rows(), w.grid.Cols())
+}
