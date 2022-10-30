@@ -5,7 +5,6 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/zronev/cellular-zoo/config"
 	"github.com/zronev/cellular-zoo/grid"
 	"github.com/zronev/cellular-zoo/rule"
 )
@@ -14,9 +13,9 @@ type World struct {
 	grid *grid.Grid[int]
 }
 
-func New(rows, cols, states int) *World {
+func New(rows, cols, states int, spawnCap float64) *World {
 	grid := grid.New[int](rows, cols)
-	cap := int(float64(rows*cols) * config.SpawnCapacity)
+	cap := int(float64(rows*cols) * spawnCap)
 
 	for count := 0; count < cap; count++ {
 		r := rand.Intn(rows)
