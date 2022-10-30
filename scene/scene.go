@@ -13,6 +13,7 @@ import (
 )
 
 type Scene interface {
+	Setup()
 	Update()
 	Draw(drawer drawers.Drawer)
 }
@@ -35,6 +36,8 @@ func run(scene Scene) {
 
 	imd := imdraw.New(nil)
 	drawer := drawers.NewWindowDrawer(imd, int(cfg.Bounds.W()), int(cfg.Bounds.H()))
+
+	scene.Setup()
 
 	ticker := time.NewTicker(time.Second / config.FPS)
 

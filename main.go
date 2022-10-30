@@ -10,30 +10,22 @@ import (
 	"github.com/zronev/cellular-zoo/world"
 )
 
-type State struct {
+type state struct {
 	rule        *rule.Rule
 	world       *world.World
 	worldDrawer *world.Drawer
 }
 
-type Scene struct {
-	state *State
+type myScene struct {
+	state *state
 }
 
-func (s *Scene) Update() {
-	s.state.world.NextGen(s.state.rule)
-}
-
-func (s *Scene) Draw(drawer drawers.Drawer) {
-	s.state.worldDrawer.Draw(drawer)
-}
-
-func main() {
+func (s *myScene) Setup() {
 	const ruleString = config.DefaultRule
 
 	rule, err := rule.FromString(ruleString)
 	if err != nil {
-		panic(fmt.Sprintln("wrong rule: ", ruleString))
+		panic(fmt.Sprintln("invalid rule: ", ruleString))
 	}
 
 	w := world.New(
@@ -44,8 +36,17 @@ func main() {
 	)
 	wd := world.NewDrawer(w, config.DefaultPalette, config.CellSize)
 
-	state := &State{rule, w, wd}
-	myScene := &Scene{state}
+	s.state = &state{rule, w, wd}
+}
 
-	scene.Run(myScene)
+func (s *myScene) Update() {
+	s.state.world.NextGen(s.state.rule)
+}
+
+func (s *myScene) Draw(drawer drawers.Drawer) {
+	s.state.worldDrawer.Draw(drawer)
+}
+
+func main() {
+	scene.Run(&myScene{})
 }
