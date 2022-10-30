@@ -18,9 +18,10 @@ func New(rows, cols, states int, spawnCap float64) *World {
 	cap := int(float64(rows*cols) * spawnCap)
 
 	for count := 0; count < cap; count++ {
-		r := rand.Intn(rows)
-		c := rand.Intn(cols)
-		grid.Set(c, r, rand.Intn(states))
+		x := rand.Intn(cols)
+		y := rand.Intn(rows)
+		states := rand.Intn(states)
+		grid.Set(x, y, states)
 	}
 
 	return &World{grid}
