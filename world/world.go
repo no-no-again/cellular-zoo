@@ -30,6 +30,9 @@ func (w *World) NextGen(rule *rule.Rule) {
 	w.nextGen(rule, nworkers)
 }
 
+// TODO: check how bad it is to spawn a bunch of goroutines on every frame.
+// Maybe rewrite this using long-living workers and channels.
+// But this is good enough for now.
 func (w *World) nextGen(rule *rule.Rule, nworkers int) {
 	var wg sync.WaitGroup
 	gridCopy := w.grid.Copy()
