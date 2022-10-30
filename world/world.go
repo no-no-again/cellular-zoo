@@ -35,8 +35,8 @@ func (w *World) NextGen(rule *rule.Rule) {
 // But this is good enough for now.
 func (w *World) nextGen(rule *rule.Rule, nworkers int) {
 	var wg sync.WaitGroup
-	gridCopy := w.grid.Copy()
 
+	gridCopy := w.grid.Copy()
 	rowsPerWorker := w.grid.Rows()/nworkers + 1
 
 	for i := 0; i < nworkers; i++ {
@@ -49,7 +49,9 @@ func (w *World) nextGen(rule *rule.Rule, nworkers int) {
 				for x := 0; x < w.grid.Cols(); x++ {
 					cell := w.grid.Get(x, y)
 					neighbours := rule.CountNeighbours(x, y, gridCopy)
-					*cell = rule.Apply(*cell, neighbours)
+
+					newCell := rule.Apply(cell, neighbours)
+					w.grid.Set(x, y, newCell)
 				}
 			}
 		}(i)

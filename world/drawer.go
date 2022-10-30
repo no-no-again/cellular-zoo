@@ -19,14 +19,14 @@ func NewDrawer(world *World, palette Palette, cellSize int) *Drawer {
 }
 
 func (wd *Drawer) Draw(drawer drawers.Drawer) {
-	wd.world.grid.Traverse(func(x, y int, cell *int) {
+	wd.world.grid.Traverse(func(x, y int, cell int) {
 
 		drawer.DrawRect(
 			float64(x*wd.cellSize),
 			float64(y*wd.cellSize),
 			float64(wd.cellSize),
 			float64(wd.cellSize),
-			wd.palette[*cell],
+			wd.palette[cell],
 		)
 	})
 }

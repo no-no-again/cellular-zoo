@@ -25,15 +25,15 @@ func (g *Grid[T]) Cols() int {
 	return g.cols
 }
 
-func (g *Grid[T]) Get(x, y int) *T {
-	return &g.vals[g.cols*y+x]
+func (g *Grid[T]) Get(x, y int) T {
+	return g.vals[g.cols*y+x]
 }
 
 func (g *Grid[T]) Set(x, y int, v T) {
 	g.vals[g.cols*y+x] = v
 }
 
-func (g *Grid[T]) Traverse(f func(x, y int, v *T)) {
+func (g *Grid[T]) Traverse(f func(x, y int, v T)) {
 	for row := 0; row < g.rows; row++ {
 		for col := 0; col < g.cols; col++ {
 			f(col, row, g.Get(col, row))
@@ -50,7 +50,7 @@ func (g *Grid[T]) Copy() *Grid[T] {
 func (g *Grid[T]) Debug() {
 	for row := 0; row < g.rows; row++ {
 		for col := 0; col < g.cols; col++ {
-			fmt.Printf("%v ", *g.Get(col, row))
+			fmt.Printf("%v ", g.Get(col, row))
 		}
 		fmt.Println()
 	}

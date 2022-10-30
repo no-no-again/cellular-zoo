@@ -88,7 +88,7 @@ func (r *Rule) CountNeighbours(x, y int, g *grid.Grid[int]) int {
 					continue
 				}
 
-				if *g.Get(x, y) != 0 {
+				if g.Get(x, y) != 0 {
 					neighbours++
 				}
 			}
@@ -105,7 +105,7 @@ func (r *Rule) CountNeighbours(x, y int, g *grid.Grid[int]) int {
 						continue
 					}
 
-					if *g.Get(x, y) != 0 {
+					if g.Get(x, y) != 0 {
 						neighbours++
 					}
 				}
