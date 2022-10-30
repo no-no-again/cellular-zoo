@@ -32,15 +32,14 @@ func (s *myScene) Setup() {
 	rols := config.WindowHeight / config.CellSize
 	cols := config.WindowWidth / config.CellSize
 
-	w := world.New(
-		rols,
-		cols,
-		rule,
-		config.SpawnCapacity,
-	)
+	w := world.New(rols, cols, rule, config.SpawnCapacity)
 	wd := world.NewDrawer(w, config.DefaultPalette, config.CellSize)
 
-	s.state = &state{rule, w, wd}
+	s.state = &state{
+		rule:        rule,
+		world:       w,
+		worldDrawer: wd,
+	}
 }
 
 func (s *myScene) Update() {
@@ -53,7 +52,11 @@ func (s *myScene) Draw(drawer drawers.Drawer) {
 
 func (s *myScene) Input(win *pixelgl.Window) {
 	if win.JustPressed(pixelgl.KeyS) {
-		fmt.Println("S")
+		s.state.world.Spawn(s.state.rule, config.SpawnCapacity)
+	}
+
+	if win.JustPressed(pixelgl.KeyC) {
+		s.state.world.Clear()
 	}
 }
 
