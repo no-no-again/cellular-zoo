@@ -20,7 +20,7 @@ func TestWorld(t *testing.T) {
 		{
 			nworkers: 5,
 			rule:     allDeadAfterFirstStepRule,
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				7, 4,
 				0, 1, 0, 1,
 				0, 1, 0, 1,
@@ -30,7 +30,7 @@ func TestWorld(t *testing.T) {
 				0, 1, 0, 1,
 				0, 1, 0, 1,
 			),
-			want: grid.NewFromValues(
+			want: grid.FromValues(
 				7, 4,
 				0, 0, 0, 0,
 				0, 0, 0, 0,

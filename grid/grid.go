@@ -13,7 +13,7 @@ func New[T any](rows, cols int) *Grid[T] {
 	return &Grid[T]{vals, rows, cols}
 }
 
-func NewFromValues[T any](rows, cols int, vals ...T) *Grid[T] {
+func FromValues[T any](rows, cols int, vals ...T) *Grid[T] {
 	return &Grid[T]{vals, rows, cols}
 }
 

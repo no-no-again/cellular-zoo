@@ -74,7 +74,7 @@ func TestCountNeighbours(t *testing.T) {
 			x:    1,
 			y:    1,
 			rule: mustGetRule("2/2/2/M"),
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				3, 3,
 				0, 0, 0,
 				0, 0, 0,
@@ -86,7 +86,7 @@ func TestCountNeighbours(t *testing.T) {
 			x:    1,
 			y:    1,
 			rule: mustGetRule("2/2/2/M"),
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				3, 3,
 				0, 1, 1,
 				0, 1, 1,
@@ -98,7 +98,7 @@ func TestCountNeighbours(t *testing.T) {
 			x:    0,
 			y:    0,
 			rule: mustGetRule("2/2/2/M"),
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				3, 3,
 				0, 1, 1,
 				0, 1, 1,
@@ -110,7 +110,7 @@ func TestCountNeighbours(t *testing.T) {
 			x:    2,
 			y:    2,
 			rule: mustGetRule("2/2/2/M"),
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				3, 3,
 				0, 1, 1,
 				0, 1, 1,
@@ -123,7 +123,7 @@ func TestCountNeighbours(t *testing.T) {
 			x:    1,
 			y:    1,
 			rule: mustGetRule("2/2/2/N"),
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				3, 3,
 				0, 0, 0,
 				0, 0, 0,
@@ -135,7 +135,7 @@ func TestCountNeighbours(t *testing.T) {
 			x:    1,
 			y:    1,
 			rule: mustGetRule("2/2/2/N"),
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				3, 3,
 				0, 1, 1,
 				0, 1, 1,
@@ -147,7 +147,7 @@ func TestCountNeighbours(t *testing.T) {
 			x:    0,
 			y:    0,
 			rule: mustGetRule("2/2/2/N"),
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				3, 3,
 				0, 1, 1,
 				0, 1, 1,
@@ -159,7 +159,7 @@ func TestCountNeighbours(t *testing.T) {
 			x:    2,
 			y:    2,
 			rule: mustGetRule("2/2/2/N"),
-			grid: grid.NewFromValues(
+			grid: grid.FromValues(
 				3, 3,
 				0, 1, 1,
 				0, 1, 1,
